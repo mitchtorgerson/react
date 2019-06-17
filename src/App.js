@@ -12,7 +12,7 @@ function App() {
             <SearchBox />
         </div>
         <footer>
-            Base React App
+            Test React App
         </footer>
     </div>
   );
