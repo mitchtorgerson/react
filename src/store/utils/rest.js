@@ -4,12 +4,7 @@ function getOptions(userOptions) {
     const restDefaults = {
 
     };
-    const axiosDefaults = {
-
-    };
     const newOptions = {
-        ...restDefaults,
-        ...axiosDefaults,
         ...userOptions,
         headers: { ...userOptions.headers },
     };
