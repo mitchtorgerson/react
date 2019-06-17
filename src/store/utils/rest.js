@@ -2,14 +2,10 @@ import axios from 'axios';
 
 function getOptions(userOptions) {
     const restDefaults = {
-        okStatuses: [],
-        noCache: true,
+
     };
     const axiosDefaults = {
-        timeout: userOptions.slow ? 120000 : 30000,
-        maxContentLength: 1000000,
-        responseType: 'json',
-        transformRequest: [transformUrlEncoded].concat(axios.defaults.transformRequest),
+
     };
     const newOptions = {
         ...restDefaults,
@@ -18,32 +14,12 @@ function getOptions(userOptions) {
         headers: { ...userOptions.headers },
     };
 
-    if (newOptions.okStatuses.length) {
-        const okStatuses = newOptions.okStatuses;
-        const oldValidateStatus = newOptions.validateStatus || axios.defaults.validateStatus;
-        newOptions.validateStatus = status => (okStatuses.indexOf(status) >= 0 || oldValidateStatus(status));
-    }
-
-    if (newOptions.noCache) {
-        newOptions.headers['Cache-Control'] = 'no-cache';
-        newOptions.headers.Pragma = 'no-cache';
-    }
-
     const axiosKeys = Object.keys(newOptions).filter(k => !(k in restDefaults));
     const axiosOptions = axiosKeys.reduce((obj, k) => {
         obj[k] = newOptions[k];
         return obj;
     }, {});
     return [axiosOptions, newOptions];
-}
-
-function transformUrlEncoded(data, headers) {
-    if (!(typeof data === 'object' &&
-        headers['Content-Type'] && headers['Content-Type'].toLowerCase() === 'application/x-www-form-urlencoded')
-    ) {
-        return data;
-    }
-    return Object.keys(data).map(k => encodeURIComponent(k) + '=' + encodeURIComponent(data[k])).join('&');
 }
 
 export function genericErrorHandler(error, options) {

@@ -10,7 +10,7 @@ export function performSearch(searchTxt) {
         const giphy = 'https://api.giphy.com/v1/gifs/random?api_key=' + apiKey + '&tag=' + searchTxt;
 
         return rest.get(giphy).then(response => {
-            dispatch({type: Actions.PERFORM_SEARCH, imageUrl: response.data.embed_url});
+            dispatch({type: Actions.PERFORM_SEARCH, imageUrl: response.data.data.embed_url});
         })
     };
 }
